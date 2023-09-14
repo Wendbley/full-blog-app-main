@@ -6,12 +6,28 @@ import Image from 'next/image'
 import { external, image, plus, video } from '../../../public'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.bubble.css'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 type Props = {}
 
 const WritePage = (props: Props) => {
 	const [open, setOpen] = useState(false)
 	const [value, setValue] = useState('')
+	const { status } = useSession()
+	const router = useRouter()
+
+
+	if (status === 'loading') {
+		return (
+			<div className={styles.loading}>
+				<h1>Loading...</h1>
+			</div>
+		)
+	}
+	if (status === 'unauthenticated') {
+		router.push('/')
+	}
 
 	const handleSubmit = () => {}
 
@@ -33,7 +49,7 @@ const WritePage = (props: Props) => {
 				</button>
 				{open && (
 					<div className={styles.add}>
-						<input type='file' id='image' style={{ display: 'none' }} />
+						<input type='file' id='file' style={{ display: 'none' }} />
 						<button className={styles.addButton}>
 							<label htmlFor='image'>
 								<Image src={image} alt='image' width={16} height={16} />
@@ -43,7 +59,7 @@ const WritePage = (props: Props) => {
 							<Image src={external} alt='' width={16} height={16} />
 						</button>
 						<button className={styles.addButton}>
-							<Image src={video} alt='' width={16} height={16} />
+							<Image src={video} alt='video' width={16} height={16} />
 						</button>
 					</div>
 				)}

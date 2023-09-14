@@ -15,7 +15,7 @@ const Login = (props: Props) => {
 	const { data: session, status } = useSession()
 	const router = useRouter()
 
-	console.log(session, status)
+	
 
 	if (status === 'loading') {
 		return (
@@ -34,7 +34,7 @@ const Login = (props: Props) => {
 				<div className={styles.socialButton} onClick={() => signIn('google')}>
 					Sign in with Google
 				</div>
-				<div className={styles.socialButton}>Sign in with Github</div>
+				<div className={styles.socialButton} onClick={() => signIn('github')}>Sign in with Github</div>
 				<div className={styles.socialButton}>Sign in with Facebook</div>
 			</div>
 		</div>
